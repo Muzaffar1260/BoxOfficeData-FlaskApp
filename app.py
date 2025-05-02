@@ -5,12 +5,13 @@ from jinja2 import Environment
 def intcomma(value):
     return "{:,}".format(value)
 
-
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///box_office.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+
+# Register the Jinja filter
+app.jinja_env.filters['intcomma'] = intcomma
 
 @app.route('/')
 def index():
@@ -42,5 +43,3 @@ def server_error(error):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    app.jinja_env.filters['intcomma'] = intcomma
