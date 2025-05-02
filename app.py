@@ -21,6 +21,7 @@ def index():
 def movie_list():
     try:
         movies = Movie.query.order_by(Movie.year).all()
+        print(f"Retrieved {len(movies)} movies")  # Debug statement
         return render_template('movie_list.html', movies=movies)
     except Exception as e:
         return render_template('error.html', error=str(e))

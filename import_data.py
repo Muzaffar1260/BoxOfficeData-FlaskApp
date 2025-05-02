@@ -5,6 +5,14 @@ from app import app
 # Load the dataset
 df = pd.read_csv('movies_1995_2008_clean.csv')
 
+# Debug: Inspect the data
+print("Initial DataFrame:")
+print(df.head())
+print("\nDataFrame Info:")
+print(df.info())
+print("\nMissing Values:")
+print(df.isnull().sum())
+
 # Clean the dataset: remove rows with NaN in any column
 df = df.dropna(subset=['Year', 'Title', 'Gross'])
 
@@ -14,6 +22,11 @@ df['Gross'] = pd.to_numeric(df['Gross'], errors='coerce')
 
 # Remove any remaining rows where Year or Gross are NaN after conversion
 df = df.dropna(subset=['Year', 'Gross'])
+
+# Debug: Inspect cleaned data
+print("\nCleaned DataFrame:")
+print(df.head())
+print(f"\nNumber of rows after cleaning: {len(df)}")
 
 # Initialize Flask app context
 with app.app_context():
@@ -26,9 +39,9 @@ with app.app_context():
     # Insert movies
     for _, row in df.iterrows():
         movie = Movie(
-            year=int(row['Year']),  # Ensure year is an integer
-            title=row['Title'],
-            gross=int(row['Gross'])  # Ensure gross is an integer
+            year=int(row['Year']),
+            title=str(row['Title']),
+            gross=int(row['Gross'])
         )
         db.session.add(movie)
 
