@@ -5,6 +5,16 @@ from app import app
 # Load the dataset
 df = pd.read_csv('movies_1995_2008_clean.csv')
 
+# Clean the dataset: remove rows with NaN in any column
+df = df.dropna(subset=['Year', 'Title', 'Gross'])
+
+# Ensure 'Year' and 'Gross' are numeric
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df['Gross'] = pd.to_numeric(df['Gross'], errors='coerce')
+
+# Remove any remaining rows where Year or Gross are NaN after conversion
+df = df.dropna(subset=['Year', 'Gross'])
+
 # Initialize Flask app context
 with app.app_context():
     db.create_all()  # Create tables
@@ -16,9 +26,9 @@ with app.app_context():
     # Insert movies
     for _, row in df.iterrows():
         movie = Movie(
-            year=row['Year'],
+            year=int(row['Year']),  # Ensure year is an integer
             title=row['Title'],
-            gross=row['Gross']
+            gross=int(row['Gross'])  # Ensure gross is an integer
         )
         db.session.add(movie)
 
@@ -26,9 +36,9 @@ with app.app_context():
     yearly_data = df.groupby('Year').agg({'Gross': 'sum', 'Title': 'count'}).reset_index()
     for _, row in yearly_data.iterrows():
         stats = YearlyStats(
-            year=row['Year'],
-            total_gross=row['Gross'],
-            movie_count=row['Title']
+            year=int(row['Year']),
+            total_gross=int(row['Gross']),
+            movie_count=int(row['Title'])
         )
         db.session.add(stats)
 
