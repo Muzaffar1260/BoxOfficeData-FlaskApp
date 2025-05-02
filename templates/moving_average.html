@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moving Average</title>
+</head>
+<body>
+
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Moving Average Analysis</h1>
+    <table>
+        <tr>
+            <th>Year</th>
+            <th>Actual Gross</th>
+            <th>3-Year Moving Average</th>
+        </tr>
+        {% for i in range(stats|length) %}
+        <tr>
+            <td>{{ years[i] }}</td>
+            <td>${{ grosses[i] | intcomma }}</td>
+            <td>${{ moving_avg[i] | intcomma }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+</body>
+</html>

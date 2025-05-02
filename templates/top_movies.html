@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Movies</title>
+</head>
+<body>
+
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Top Grossing Movies by Year</h1>
+    <table>
+        <tr>
+            <th>Year</th>
+            <th>Rank</th>
+            <th>Title</th>
+            <th>Gross</th>
+        </tr>
+        {% for movie in top_movies %}
+        <tr>
+            <td>{{ movie.year }}</td>
+            <td>{{ movie.rank }}</td>
+            <td>{{ movie.title }}</td>
+            <td>${{ movie.gross | intcomma }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+</body>
+</html>
