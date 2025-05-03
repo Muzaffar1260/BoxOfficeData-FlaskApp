@@ -9,6 +9,23 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Movies</h1>
+    <div class="controls">
+        <form method="GET" action="{{ url_for('movie_list') }}">
+            <div class="search-bar">
+                <input type="text" name="search" placeholder="Search by title..." value="{{ search_query }}">
+                <button type="submit">Search</button>
+            </div>
+            <div class="sort-options">
+                <label for="sort">Sort by:</label>
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                    <option value="year_asc" {% if sort_by == 'year_asc' %}selected{% endif %}>Year (Asc)</option>
+                    <option value="year_desc" {% if sort_by == 'year_desc' %}selected{% endif %}>Year (Desc)</option>
+                    <option value="gross_asc" {% if sort_by == 'gross_asc' %}selected{% endif %}>Gross (Asc)</option>
+                    <option value="gross_desc" {% if sort_by == 'gross_desc' %}selected{% endif %}>Gross (Desc)</option>
+                </select>
+            </div>
+        </form>
+    </div>
     <table>
         <tr>
             <th>Year</th>
@@ -23,6 +40,44 @@
         </tr>
         {% endfor %}
     </table>
+    {% if not movies %}
+        <p>No movies found matching your search.</p>
+    {% endif %}
+    <style>
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .search-bar input {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-bar button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+        .sort-options label {
+            margin-right: 10px;
+        }
+        .sort-options select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
 {% endblock %}
 
 </body>

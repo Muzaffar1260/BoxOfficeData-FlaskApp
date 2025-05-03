@@ -2,14 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Homepage</title>
 </head>
 <body>
 
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Welcome to Box Office Data (1995-2008)</h1>
-    <p>Explore movies and yearly statistics.</p>
+    <div class="banner">
+        <h1>Welcome to Box Office Data (2000-2024)</h1>
+        <p>Discover trends, top movies, and insights from box office data spanning over a decade.</p>
+    </div>
+    <div class="stats-overview">
+        <h2>At a Glance</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Movies</h3>
+                <p>{{ total_movies }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Highest Grossing Year</h3>
+                <p>{{ highest_year }} (${{ highest_gross | intcomma }})</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Gross</h3>
+                <p>${{ total_gross | intcomma }}</p>
+            </div>
+        </div>
+    </div>
+    <style>
+        .banner {
+            background: linear-gradient(135deg, #007bff, #00c4ff);
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .banner h1 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .stats-overview {
+            text-align: center;
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stat-card {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 200px;
+        }
+        .stat-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .stat-card p {
+            font-size: 1.2em;
+            color: #007bff;
+        }
+    </style>
 {% endblock %}
 
 </body>

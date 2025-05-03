@@ -2,35 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Moving Average</title>
+    <title>Annual Comparisom</title>
 </head>
 <body>
 
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Moving Average Analysis</h1>
+    <h1>Annual Gross Comparison</h1>
     <div>
-        <canvas id="movingAvgChart"></canvas>
+        <canvas id="grossChart"></canvas>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('movingAvgChart').getContext('2d');
+        const ctx = document.getElementById('grossChart').getContext('2d');
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: {{ years | tojson }},
                 datasets: [{
-                    label: 'Actual Gross ($)',
+                    label: 'Total Gross ($)',
                     data: {{ grosses | tojson }},
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false,
-                    tension: 0.1
-                }, {
-                    label: '3-Year Moving Average ($)',
-                    data: {{ moving_avg | tojson }},
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    fill: false,
-                    tension: 0.1
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
                 }]
             },
             options: {
@@ -43,11 +37,14 @@
                 },
                 plugins: {
                     legend: { position: 'top' },
-                    title: { display: true, text: 'Moving Average Trend (2000-2024)' }
+                    title: { display: true, text: 'Annual Gross Comparison (1995-2008)' }
                 }
             }
         });
     </script>
+    <h2>Key Insights</h2>
+    <p>Highest Gross Year: {{ max_year }} (${{ max_gross | intcomma }})</p>
+    <p>Lowest Gross Year: {{ min_year }} (${{ min_gross | intcomma }})</p>
 {% endblock %}
 
 </body>

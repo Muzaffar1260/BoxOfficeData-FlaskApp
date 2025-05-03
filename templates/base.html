@@ -3,13 +3,83 @@
 <head>
     <title>Box Office Data</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5; /* Light gray background for contrast */
+        }
+        .tab-nav {
+            overflow: hidden;
+            border-bottom: 2px solid #007bff;
+            background-color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tab-nav a {
+            display: inline-block;
+            color: #333;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            border-right: 1px solid #ddd;
+        }
+        .tab-nav a:hover {
+            background-color: #e9ecef;
+        }
+        .tab-nav a.active {
+            background-color: #007bff;
+            color: #fff;
+            border-bottom: 2px solid #0056b3;
+        }
+        .tab-nav a:last-child {
+            border-right: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('index') }}">Home</a> |
-        <a href="{{ url_for('movie_list') }}">Movies</a> |
-        <a href="{{ url_for('stats') }}">Yearly Stats</a>
-    </nav>
+    <div class="tab-nav">
+        <a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Home</a>
+        <a href="{{ url_for('movie_list') }}" class="{% if request.endpoint == 'movie_list' %}active{% endif %}">Movies</a>
+        <a href="{{ url_for('stats') }}" class="{% if request.endpoint == 'stats' %}active{% endif %}">Yearly Stats</a>
+        <a href="{{ url_for('annual_comparison') }}" class="{% if request.endpoint == 'annual_comparison' %}active{% endif %}">Annual Comparison</a>
+        <a href="{{ url_for('top_movies') }}" class="{% if request.endpoint == 'top_movies' %}active{% endif %}">Top Movies</a>
+        <a href="{{ url_for('moving_average') }}" class="{% if request.endpoint == 'moving_average' %}active{% endif %}">Moving Average</a>
+    </div>
+
     <div class="container">
         {% block content %}{% endblock %}
     </div>
