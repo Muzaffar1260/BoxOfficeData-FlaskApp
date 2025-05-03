@@ -18,9 +18,14 @@ def index():
     try:
         total_movies = Movie.query.count()
         stats = YearlyStats.query.order_by(YearlyStats.year).all()
-        total_gross = sum(stat.total_gross for stat in stats)
-        highest_gross = max(stat.total_gross for stat in stats)
-        highest_year = [stat.year for stat in stats if stat.total_gross == highest_gross][0]
+        if not stats:
+            total_gross = 0
+            highest_year = "N/A"
+            highest_gross = 0
+        else:
+            total_gross = sum(stat.total_gross for stat in stats)
+            highest_gross = max(stat.total_gross for stat in stats)
+            highest_year = [stat.year for stat in stats if stat.total_gross == highest_gross][0]
         return render_template('index.html', total_movies=total_movies, total_gross=total_gross, highest_year=highest_year, highest_gross=highest_gross)
     except Exception as e:
         return render_template('error.html', error=str(e))
@@ -68,6 +73,8 @@ def stats():
 def annual_comparison():
     try:
         stats = YearlyStats.query.order_by(YearlyStats.year).all()
+        if not stats:
+            return render_template('error.html', error="No data available for annual comparison")
         years = [stat.year for stat in stats]
         grosses = [stat.total_gross for stat in stats]
         max_gross = max(grosses)
@@ -90,6 +97,8 @@ def top_movies():
 def moving_average():
     try:
         stats = YearlyStats.query.order_by(YearlyStats.year).all()
+        if not stats:
+            return render_template('error.html', error="No data available for moving average analysis")
         years = [stat.year for stat in stats]
         grosses = [stat.total_gross for stat in stats]
         moving_avg = []
